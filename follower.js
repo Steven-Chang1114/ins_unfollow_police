@@ -4,13 +4,18 @@ const selectors = {
     userLi: 'NroHT',
     closeBtn: 'pxaFn',
     flwTitle: 'm82CD',
-    objDiv: "j6cq2"
+    objDiv: "j6cq2",
+    followYou: "y3zKF",
+    followEachOther: "_8A5w5",
+    followStatus: "sqdOP L3NKy",
+    isFamous: "GWmZb Szr5J coreSpriteVerifiedBadge" //with V tag
 }
 
 const _x = {};
 
-_x.followers = Array();
-_x.following = Array();
+_x.followers = [];
+_x.following = [];
+_x.notFollowBack = [];
 _x.followers_elm = document.getElementsByClassName(selectors.modalTrigger)[1];
 _x.following_elm = document.getElementsByClassName(selectors.modalTrigger)[2];
 
@@ -21,7 +26,7 @@ const maxLenEr = _x.followers_elm.getElementsByTagName('span')[0].innerHTML;
 
 const areYouFollowed = className => {
     //y3zKF is you did not follow, _8A5w5 is you followed
-    if(className.includes('y3zKF')){
+    if(className.includes(selectors.followYou)){
         return false
     }
     return true
@@ -29,10 +34,10 @@ const areYouFollowed = className => {
 
 function updateFollowers() {
     _x.f = document.getElementsByClassName(selectors.unameElement);
-    _x.status = document.getElementsByClassName("sqdOP L3NKy");
+    _x.status = document.getElementsByClassName(selectors.followStatus);
     for (let i = 0; i < _x.f.length; i++) {
         if (_x.f[i] != undefined && _x.status[i] != undefined) {
-            const follow = areYouFollowed(_x.staus[i+1].className)
+            const follow = areYouFollowed(_x.status[i+1].className)
             //console.log(_x.f[i].innerHTML, follow)
             _x.followers.push({
                 follower: _x.f[i].innerHTML,
@@ -44,19 +49,28 @@ function updateFollowers() {
 
 function updateFollowing() {
     _x.f = document.getElementsByClassName(selectors.unameElement);
-
+    //_x.isFamous = document.getElementsByClassName(selectors.unameElement)
     for (let i = 0; i < _x.f.length; i++) {
         if (_x.f[i] != undefined) {
-            _x.following.push(_x.f[i].innerHTML);
+            const verified = isVerified(_x.f[i].nextSibling)
+            //console.log(_x.f[i].innerHTML, verified)
+            _x.following.push({
+                follower: _x.f[i].innerHTML,
+                //Convinent for clean data
+                isOrdinary: !verified
+            });
         }
     }
+}
 
-    // for pushing up unfollowers
-    _x.notFollowBack = Array();
-
-    for (let i = 0; i < _x.following.length; i++) {
-        if (!_x.followers.includes(_x.following[i])) {
-            _x.notFollowBack.push(_x.following[i]);
-        }
+const isVerified = html => {
+    if(!html){
+        return false
     }
+    return true
+}
+
+const findUnfollower = () => {
+    const followers = _x.followers
+    const following = _x.following
 }
