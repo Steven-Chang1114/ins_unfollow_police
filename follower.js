@@ -36,11 +36,11 @@ function updateFollowers() {
     _x.f = document.getElementsByClassName(selectors.unameElement);
     _x.status = document.getElementsByClassName(selectors.followStatus);
     for (let i = 0; i < _x.f.length; i++) {
-        if (_x.f[i] != undefined && _x.status[i] != undefined) {
+        if (_x.f[i] && _x.status[i]) {
             const follow = areYouFollowed(_x.status[i+1].className)
             //console.log(_x.f[i].innerHTML, follow)
             _x.followers.push({
-                follower: _x.f[i].innerHTML,
+                name: _x.f[i].innerHTML,
                 isFollowedBack: follow
             });
         }
@@ -51,11 +51,11 @@ function updateFollowing() {
     _x.f = document.getElementsByClassName(selectors.unameElement);
     //_x.isFamous = document.getElementsByClassName(selectors.unameElement)
     for (let i = 0; i < _x.f.length; i++) {
-        if (_x.f[i] != undefined) {
+        if (_x.f[i]) {
             const verified = isVerified(_x.f[i].nextSibling)
             //console.log(_x.f[i].innerHTML, verified)
             _x.following.push({
-                follower: _x.f[i].innerHTML,
+                name: _x.f[i].innerHTML,
                 //Convinent for clean data
                 isOrdinary: !verified
             });
@@ -71,6 +71,36 @@ const isVerified = html => {
 }
 
 const findUnfollower = () => {
-    const followers = _x.followers
-    const following = _x.following
+    //Clean users that leaves followers that you followed back and your following that is not celebarity
+    const followers = cleanData(_x.followers, "isFollowedBack")
+    const followings = cleanData(_x.following, "isOrdinary")
+
+    //console.log(followers)
+    //console.log(followings)
+
+    for(let i = 0; i < followings.length; i++){
+        let followed = false;
+        for(let j = 0; j < followers.length; j++){
+            if(followers[j] === followings[i]){
+                followed = true
+            }
+        }
+
+        if(!followed){
+            _x.notFollowBack.push(followings[i])
+        }
+    }
+    console.log("Success!")
+}
+
+const cleanData = (followers, status) => {
+    const cleanData = []
+
+    for(let i = 0; i < followers.length; i++){
+        if(followers[i][status]){
+            cleanData.push(followers[i]['name'])
+        }
+    }
+
+    return cleanData
 }
