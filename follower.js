@@ -20,6 +20,7 @@ const maxLenIng = _x.following_elm.getElementsByTagName('span')[0].innerHTML;
 const maxLenEr = _x.followers_elm.getElementsByTagName('span')[0].innerHTML;
 
 const areYouFollowed = className => {
+    //y3zKF is you did not follow, _8A5w5 is you followed
     if(className.includes('y3zKF')){
         return false
     }
@@ -28,11 +29,10 @@ const areYouFollowed = className => {
 
 function updateFollowers() {
     _x.f = document.getElementsByClassName(selectors.unameElement);
-    //y3zKF is you did not follow, _8A5w5 is you followed
-    _x.zz = document.getElementsByClassName("sqdOP L3NKy");
+    _x.status = document.getElementsByClassName("sqdOP L3NKy");
     for (let i = 0; i < _x.f.length; i++) {
-        if (_x.f[i] != undefined && _x.zz[i] != undefined) {
-            const follow = areYouFollowed(_x.zz[i+1].className)
+        if (_x.f[i] != undefined && _x.status[i] != undefined) {
+            const follow = areYouFollowed(_x.staus[i+1].className)
             //console.log(_x.f[i].innerHTML, follow)
             _x.followers.push({
                 follower: _x.f[i].innerHTML,
@@ -45,7 +45,7 @@ function updateFollowers() {
 function updateFollowing() {
     _x.f = document.getElementsByClassName(selectors.unameElement);
 
-    for (i = 0; i < _x.f.length; i++) {
+    for (let i = 0; i < _x.f.length; i++) {
         if (_x.f[i] != undefined) {
             _x.following.push(_x.f[i].innerHTML);
         }
@@ -54,8 +54,9 @@ function updateFollowing() {
     // for pushing up unfollowers
     _x.notFollowBack = Array();
 
-    for (i = 0; i < _x.following.length; i++) {
+    for (let i = 0; i < _x.following.length; i++) {
         if (!_x.followers.includes(_x.following[i])) {
             _x.notFollowBack.push(_x.following[i]);
         }
     }
+}
