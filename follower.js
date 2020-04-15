@@ -13,7 +13,7 @@ const selectors = {
 
 const _x = {};
 //Leave it true if you are searching your own account
-const admin = true
+_x.admin = true
 
 _x.followers = [];
 _x.following = [];
@@ -35,11 +35,13 @@ const areYouFollowed = className => {
 }
 
 function updateFollowers() {
+    init()
+    
     _x.f = document.getElementsByClassName(selectors.unameElement);
     _x.status = document.getElementsByClassName(selectors.followStatus);
     for (let i = 0; i < _x.f.length; i++) {
 
-        if(admin){
+        if(_x.admin){
             if (_x.f[i] && _x.status[i+1].className) {
                 //console.log(_x.status.length, _x.f.length)
                 //_x.status[0] is Edit_Profile button
@@ -53,6 +55,7 @@ function updateFollowers() {
         }else{
             _x.followers.push({
                 name: _x.f[i].innerHTML,
+                isFollowedBack: true
             });
         }
     }
@@ -95,6 +98,7 @@ const findUnfollower = () => {
     for(let i = 0; i < followings.length; i++){
         let followed = false;
         for(let j = 0; j < followers.length; j++){
+            //console.log(followers[j], followings[i])
             if(followers[j] === followings[i]){
                 followed = true
             }
