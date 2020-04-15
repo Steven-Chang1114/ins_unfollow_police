@@ -17,14 +17,17 @@ _x.admin = true
 
 _x.followers = [];
 _x.following = [];
-_x.notFollowBack = [];
+_x.notFollowBack = []; //You follow them but they did not follow you
+_x.notFollowing = []; //They follow you but unfollowed afterwards
 
-const areYouFollowed = className => {
-    //y3zKF is you did not follow, _8A5w5 is you followed
-    if(className.includes(selectors.followYou)){
-        return false
-    }
-    return true
+//Clear the data
+const init = () => {
+    _x.followers = [];
+    _x.following = [];
+    _x.notFollowBack = [];
+    _x.notFollowing = [];
+    _x.followers_elm = document.getElementsByClassName(selectors.modalTrigger)[1];
+    _x.following_elm = document.getElementsByClassName(selectors.modalTrigger)[2];
 }
 
 function updateFollowers() {
@@ -52,6 +55,38 @@ function updateFollowers() {
             });
         }
     }
+
+    //Store data into local storage
+    storeData()
+}
+
+const updateUnfollower = () => {
+    const oldFollower = getOldFollower()
+    const newFollower = getNewFollower()
+
+    let id = 0;
+    for(let i = 0; i < oldFollower.length; i++){
+        let followed = false;
+        for(let j = 0; j < newFollower.length; j++){
+            if(newFollower[j].name === oldFollower[i].name){
+                followed = true
+            }
+        }
+
+        if(!followed){
+            _x.notFollowing.push({
+                id: id,
+                name: oldFollower[i]
+            })
+
+            id++
+        }
+    }
+
+    //Let the new data cover old data
+    localStorage.removeItem("newFollower")
+    localStorage.setItem("oldFollower", JSON.stringify(newFollower))
+
 }
 
 function updateFollowing() {
@@ -67,16 +102,18 @@ function updateFollowing() {
                 isOrdinary: !verified
             });
         }
+
+        if(!followed){
+            _x.notFollowBack.push({
+                id: id,
+                name: followings[i]
+            })
+
+            id++
+        }
     }
 
     findUnfollower()
-}
-
-const isVerified = html => {
-    if(!html){
-        return false
-    }
-    return true
 }
 
 //Find the users that you follow them but they did not
@@ -110,6 +147,41 @@ const findUnfollower = () => {
     console.log(_x.notFollowBack)
 }
 
+const storeData = () => {
+    const oldFollower = localStorage.getItem("oldFollower")
+
+    if(oldFollower === null){
+        localStorage.setItem("oldFollower", JSON.stringify(_x.followers))
+    }else{
+        localStorage.setItem("newFollower", JSON.stringify(_x.followers))
+    }
+}
+
+const getNewFollower = () => {
+    const user = JSON.parse(localStorage.getItem('newFollower'))
+    return user
+}
+
+const getOldFollower = () => {
+    const user = JSON.parse(localStorage.getItem('oldFollower'))
+    return user
+}
+
+const areYouFollowed = className => {
+    //y3zKF is you did not follow, _8A5w5 is you followed
+    if(className.includes(selectors.followYou)){
+        return false
+    }
+    return true
+}
+
+const isVerified = html => {
+    if(!html){
+        return false
+    }
+    return true
+}
+
 const cleanData = (followers, status) => {
     const cleanData = []
 
@@ -120,13 +192,4 @@ const cleanData = (followers, status) => {
     }
 
     return cleanData
-}
-
-//Clear the data
-const init = () => {
-    _x.followers = [];
-    _x.following = [];
-    _x.notFollowBack = [];
-    _x.followers_elm = document.getElementsByClassName(selectors.modalTrigger)[1];
-    _x.following_elm = document.getElementsByClassName(selectors.modalTrigger)[2];
 }
