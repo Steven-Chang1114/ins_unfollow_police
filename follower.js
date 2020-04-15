@@ -7,11 +7,13 @@ const selectors = {
     objDiv: "j6cq2",
     followYou: "y3zKF",
     followEachOther: "_8A5w5",
-    followStatus: "sqdOP L3NKy",
+    followStatus: "sqdOP",
     isFamous: "GWmZb Szr5J coreSpriteVerifiedBadge" //with V tag
 }
 
 const _x = {};
+//Leave it true if you are searching your own account
+const admin = true
 
 _x.followers = [];
 _x.following = [];
@@ -36,12 +38,21 @@ function updateFollowers() {
     _x.f = document.getElementsByClassName(selectors.unameElement);
     _x.status = document.getElementsByClassName(selectors.followStatus);
     for (let i = 0; i < _x.f.length; i++) {
-        if (_x.f[i] && _x.status[i]) {
-            const follow = areYouFollowed(_x.status[i+1].className)
-            //console.log(_x.f[i].innerHTML, follow)
+
+        if(admin){
+            if (_x.f[i] && _x.status[i+1].className) {
+                //console.log(_x.status.length, _x.f.length)
+                //_x.status[0] is Edit_Profile button
+                const follow = areYouFollowed(_x.status[i+1].className)
+                //console.log(_x.f[i].innerHTML, follow)
+                _x.followers.push({
+                    name: _x.f[i].innerHTML,
+                    isFollowedBack: follow
+                });
+            }
+        }else{
             _x.followers.push({
                 name: _x.f[i].innerHTML,
-                isFollowedBack: follow
             });
         }
     }
@@ -61,6 +72,8 @@ function updateFollowing() {
             });
         }
     }
+
+    findUnfollower()
 }
 
 const isVerified = html => {
@@ -70,6 +83,7 @@ const isVerified = html => {
     return true
 }
 
+//Find the users that you follow them but they did not
 const findUnfollower = () => {
     //Clean users that leaves followers that you followed back and your following that is not celebarity
     const followers = cleanData(_x.followers, "isFollowedBack")
@@ -77,7 +91,7 @@ const findUnfollower = () => {
 
     //console.log(followers)
     //console.log(followings)
-
+    let id = 0;
     for(let i = 0; i < followings.length; i++){
         let followed = false;
         for(let j = 0; j < followers.length; j++){
@@ -87,10 +101,16 @@ const findUnfollower = () => {
         }
 
         if(!followed){
-            _x.notFollowBack.push(followings[i])
+            _x.notFollowBack.push({
+                id: id,
+                name: followings[i]
+            })
+
+            id++
         }
     }
     console.log("Success!")
+    console.log(_x.notFollowBack)
 }
 
 const cleanData = (followers, status) => {
@@ -103,4 +123,13 @@ const cleanData = (followers, status) => {
     }
 
     return cleanData
+}
+
+//Clear the data
+const init = () => {
+    _x.followers = [];
+    _x.following = [];
+    _x.notFollowBack = [];
+    _x.followers_elm = document.getElementsByClassName(selectors.modalTrigger)[1];
+    _x.following_elm = document.getElementsByClassName(selectors.modalTrigger)[2];
 }
