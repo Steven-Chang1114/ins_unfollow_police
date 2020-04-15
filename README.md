@@ -25,8 +25,8 @@ e.g.
 
 On the other hand, you can always check all the status (follower, following and the result) by typing "_x" to the console
 
-#### TODO List: 
-Currently it is very inconvenient to run this program since you have to manually scroll both of the follower and following lists all the way to the bottom. I'm still trying to think of a solution for this, and maybe it will get better after Instagram api to release a more readable documents
+## TODO List: 
+Currently it is very inconvenient to run this program since you have to manually scroll both of the follower and following lists all the way to the bottom. I'm still trying to think of a solution for this, and maybe it will get better after Instagram api releases a more readable documents
 
 ---
 This project is inspired by instaUnfollow(https://github.com/JimishF/instaUnfollow) which is now no longer available to run due 
