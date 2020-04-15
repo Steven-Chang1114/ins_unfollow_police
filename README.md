@@ -1,5 +1,5 @@
 # ins_unfollow_police
-A program that can find all the users that does not follow you
+A program that can find all the users that does not follow you while you are following them
 
 ## Usage
 This program can only work from the browser
