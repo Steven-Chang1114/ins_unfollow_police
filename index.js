@@ -18,13 +18,6 @@ _x.admin = true
 _x.followers = [];
 _x.following = [];
 _x.notFollowBack = [];
-_x.followers_elm = document.getElementsByClassName(selectors.modalTrigger)[1];
-_x.following_elm = document.getElementsByClassName(selectors.modalTrigger)[2];
-
-//Following
-const maxLenIng = _x.following_elm.getElementsByTagName('span')[0].innerHTML;
-//Follower
-const maxLenEr = _x.followers_elm.getElementsByTagName('span')[0].innerHTML;
 
 const areYouFollowed = className => {
     //y3zKF is you did not follow, _8A5w5 is you followed
@@ -113,7 +106,7 @@ const findUnfollower = () => {
             id++
         }
     }
-    console.log("Success!")
+    //console.log("Success!")
     console.log(_x.notFollowBack)
 }
 
