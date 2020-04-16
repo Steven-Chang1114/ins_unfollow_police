@@ -22,6 +22,7 @@ _x.notFollowing = []; //They follow you but unfollowed afterwards
 
 //Clear the data
 const init = () => {
+    localStorage.clear()
     _x.followers = [];
     _x.following = [];
     _x.notFollowBack = [];
