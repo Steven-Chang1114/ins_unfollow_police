@@ -31,7 +31,6 @@ const init = () => {
 }
 
 function updateFollowers() {
-    init()
     
     _x.f = document.getElementsByClassName(selectors.unameElement);
     _x.status = document.getElementsByClassName(selectors.followStatus);
@@ -60,7 +59,9 @@ function updateFollowers() {
     storeData()
 }
 
-const updateUnfollower = () => {
+const updateUnfollowers = () => {
+    _x.followers = []
+    updateFollowers()
     const oldFollower = getOldFollower()
     const newFollower = getNewFollower()
 
@@ -83,6 +84,7 @@ const updateUnfollower = () => {
         }
     }
 
+    console.log(_x.notFollowing)
     //Let the new data cover old data
     localStorage.removeItem("newFollower")
     localStorage.setItem("oldFollower", JSON.stringify(newFollower))
