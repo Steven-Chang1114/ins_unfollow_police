@@ -32,7 +32,7 @@ const init = () => {
 }
 
 function updateFollowers() {
-    
+    _x.followers = []
     _x.f = document.getElementsByClassName(selectors.unameElement);
     _x.status = document.getElementsByClassName(selectors.followStatus);
     for (let i = 0; i < _x.f.length; i++) {
@@ -93,6 +93,7 @@ const updateUnfollowers = () => {
 }
 
 function updateFollowing() {
+    _x.following = []
     _x.f = document.getElementsByClassName(selectors.unameElement);
     //_x.isFamous = document.getElementsByClassName(selectors.unameElement)
     for (let i = 0; i < _x.f.length; i++) {
@@ -195,4 +196,12 @@ const cleanData = (followers, status) => {
     }
 
     return cleanData
+}
+
+const fetchDatabase = (data) => {
+    dataJSON = JSON.stringify(data)
+
+    localStorage.setItem("oldFollower", dataJSON)
+
+    updateUnfollowers()
 }
