@@ -42,8 +42,24 @@ e.g.
 ```
   [{id: 0, name="a"}, {id:1, name="b"}, {id:2, name="c"}...]
 ```
-
-Lastly, you can always check all the status (follower, following and the result) by typing "_x" to the console
+---
+#### Common commands
+- Clean the data
+```
+init()
+```
+- Check the status
+```
+_x
+```
+OR
+```
+localStorage
+```
+- If you have saved the previous data as a javaScript object, you can call
+```
+fetchDatabase(data)
+```
 
 ## TODO List: 
 Currently it is very inconvenient to run this program since you have to manually scroll both of the follower and following lists all the way to the bottom. I'm still trying to think of a better solution for this, and maybe it will get better after Instagram api releases a more readable documents
