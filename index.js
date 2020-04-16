@@ -62,6 +62,7 @@ function updateFollowers() {
 
 const updateUnfollowers = () => {
     _x.followers = []
+    _x.notFollowing = []
     updateFollowers()
     const oldFollower = getOldFollower()
     const newFollower = getNewFollower()
@@ -85,7 +86,11 @@ const updateUnfollowers = () => {
         }
     }
 
-    console.log(_x.notFollowing)
+    //console.log(_x.notFollowing)
+    _x.notFollowing.forEach(el => {
+        console.log(el.name.name)
+    })
+    
     //Let the new data cover old data
     localStorage.removeItem("newFollower")
     localStorage.setItem("oldFollower", JSON.stringify(newFollower))
